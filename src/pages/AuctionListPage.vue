@@ -1,0 +1,32 @@
+<template>
+  <div class="content">
+
+    <div class="btn-create">
+      <el-button type="primary" icon=Plus @click="$router.push('/add-lot')">Добавить</el-button>
+    </div>
+
+    <div>
+      Страница аукциона
+    </div>
+
+  </div>
+  
+</template>
+
+<script lang="ts" setup>
+
+</script>
+
+<style scoped>
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-create {
+  display: flex;
+  justify-content: flex-end;
+}
+
+</style>
