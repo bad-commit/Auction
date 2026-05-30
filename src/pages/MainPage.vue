@@ -47,8 +47,16 @@ const route = useRoute()
 const router = useRouter()
 
 const activeTab = computed({
-  get: () => route.path,
-  set: (path) => router.push(path)
+  get() {
+    if (route.path === '/add-lot') {
+      return '/'
+    }
+
+    return route.path
+  },
+  set(path) {
+    router.push(path)
+  }
 })
 
 onMounted(() => {
