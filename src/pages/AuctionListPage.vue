@@ -9,11 +9,17 @@
       Страница аукциона
     </div>
 
+    <div class="auction-cards">
+      <AuctionCards />
+    </div>
+
   </div>
   
 </template>
 
 <script lang="ts" setup>
+
+import AuctionCards from '../components/AuctionCards.vue'
 
 </script>
 
