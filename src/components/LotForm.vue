@@ -8,13 +8,15 @@
       <el-input-number v-model="lotForm.startPrice"/>
     </el-form-item>
 
-    <el-form-item label="Описание" prop=" description">
+    <el-form-item label="Описание" prop="description">
       <el-input v-model="lotForm.description" type="textarea" />
     </el-form-item>
 
     <div class="upload-image">
 
-      <el-upload action="#" list-type="picture-card" :auto-upload="false" :on-change="handleChange">
+      <el-form-item label="Фото" prop="photo">
+
+        <el-upload action="#" list-type="picture-card" :auto-upload="false" v-model:file-list="lotForm.photo" :on-change="handleChange">
         <el-icon><Plus /></el-icon>
 
         <template #file="{ file }">
@@ -47,11 +49,13 @@
         <img w-full :src="dialogImageUrl" alt="Preview Image" />
       </el-dialog>
 
+      </el-form-item>
+
     </div>
 
     <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)"> Create </el-button>
-      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+      <el-button type="primary" @click="submitForm(ruleFormRef)"> Создать </el-button>
+      <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -98,6 +102,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
   lotForm.photo = []
+  lotForm.photoBase64 = []
 }
 
 
@@ -112,9 +117,6 @@ const disabled = ref(false)
 const handleChange = (UploadFile: UploadFile) => {
   
   const reader = new FileReader()
-
-  lotForm.photo.push(UploadFile)
-
   const file = UploadFile.raw
 
   if(!file) return
@@ -125,7 +127,6 @@ const handleChange = (UploadFile: UploadFile) => {
 
   reader.readAsDataURL(file)
 
-  // lotForm.photo.push(file)
   console.log(lotForm)
 
 }
@@ -140,6 +141,7 @@ const handleRemove = (file: UploadFile) => {
 
   if (index > -1) {
     lotForm.photo.splice(index, 1)
+    lotForm.photoBase64.splice(index, 1)
   }
 
   console.log(file)
