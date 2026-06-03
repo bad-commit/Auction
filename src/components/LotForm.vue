@@ -14,7 +14,7 @@
 
     <div class="upload-image">
 
-      <el-upload action="#" list-type="picture-card" :auto-upload="false" v-model:file-list="lotForm.photo">
+      <el-upload action="#" list-type="picture-card" :auto-upload="false" :on-change="handleChange">
         <el-icon><Plus /></el-icon>
 
         <template #file="{ file }">
@@ -73,6 +73,7 @@ const lotForm = reactive<Lot>({
   description: '',
   startPrice: 1000,
   photo: [],
+  photoBase64: [],
   isClosed: false,
   bids: [],
 })
@@ -107,10 +108,27 @@ const dialogVisible = ref(false)
 const disabled = ref(false)
 
 
-// const handleChange = (file: UploadFile) => {
-//   // lotForm.photo.push(file)
-//   console.log(lotForm)
-// }
+
+const handleChange = (UploadFile: UploadFile) => {
+  
+  const reader = new FileReader()
+
+  lotForm.photo.push(UploadFile)
+
+  const file = UploadFile.raw
+
+  if(!file) return
+
+  reader.onload = function () {
+    lotForm.photoBase64.push(reader.result as string)
+  }
+
+  reader.readAsDataURL(file)
+
+  // lotForm.photo.push(file)
+  console.log(lotForm)
+
+}
 
 const handleRemove = (file: UploadFile) => {
 

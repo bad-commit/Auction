@@ -7,6 +7,7 @@ export interface Lot {
   description: string
   startPrice: number
   photo: UploadFile[]
+  photoBase64: string[]
   isClosed: boolean
   bids: Bid[]
 }
