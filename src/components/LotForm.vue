@@ -8,8 +8,12 @@
       <el-input v-model="lotForm.yearManufacture" />
     </el-form-item>
 
+    <el-form-item label="Цвет" prop="color">
+      <el-input v-model="lotForm.color" />
+    </el-form-item>
+
     <el-form-item label="Привод" prop="drive">
-      <el-select v-model="lotForm.drive" clearable placeholder="Select">
+      <el-select v-model="lotForm.drive" clearable placeholder="Выбрать значение">
         <el-option
           v-for="item in drive"
           :key="item.value"
@@ -20,7 +24,7 @@
     </el-form-item>
 
     <el-form-item label="Тип двигателя" prop="engineType">
-      <el-select v-model="lotForm.engineType" clearable placeholder="Select">
+      <el-select v-model="lotForm.engineType" clearable placeholder="Выбрать значение">
         <el-option
           v-for="item in engineType"
           :key="item.value"
@@ -31,7 +35,7 @@
     </el-form-item>
 
     <el-form-item label="Объем двигателя" prop="engineDisplacement">
-      <el-select v-model="lotForm.engineDisplacement" clearable placeholder="Select">
+      <el-select v-model="lotForm.engineDisplacement" clearable placeholder="Выбрать значение">
         <el-option
           v-for="item in engineDisplacement"
           :key="item.value"
@@ -42,11 +46,11 @@
     </el-form-item>
 
     <el-form-item label="Мощность" prop="power">
-      <el-input v-model="lotForm.power" />
+      <el-input v-model="lotForm.power" placeholder="л.с." />
     </el-form-item>
 
     <el-form-item label="Пробег" prop="mileage">
-      <el-input v-model="lotForm.mileage" />
+      <el-input v-model="lotForm.mileage" placeholder="км" />
     </el-form-item>
 
     <el-form-item label="Описание" prop="description">
@@ -127,6 +131,7 @@ const lotForm = reactive<Lot>({
   id: new Date().getTime(),
   title: '',
   yearManufacture: null,
+  color: '',
   description: '',
   drive: '',
   engineType: '',

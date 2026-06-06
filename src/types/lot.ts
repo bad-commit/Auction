@@ -4,6 +4,7 @@ import type { UploadFile } from 'element-plus'
 export interface Lot {
   id: number
   title: string
+  color: string
   yearManufacture: number | null
   description: string
   startPrice: number
