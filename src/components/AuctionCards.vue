@@ -4,7 +4,7 @@
 
     <li class="auction-card" v-for="lot in getLots" :key="lot.id"> <!-- тут будет v-for -->
 
-      {{ lot }}
+      <!-- {{ lot }} -->
 
 
       <div class="card-info">
@@ -16,6 +16,14 @@
           </li>
 
         </ul>
+
+        <div>
+          Название
+        </div>
+
+        <div>
+          Год, привод, объем, мощность
+        </div>
 
       </div>
 
@@ -42,6 +50,13 @@ const getLots = computed(function () {
   return lotsStore.lots
 })
 
-</script>
+</script >
 
-<style scoped></style>
+<style lang="css" scoped>
+
+.card-info-image {
+  height: 100px;
+  width: 150px;
+}
+
+</style>
