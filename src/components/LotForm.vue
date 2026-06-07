@@ -1,4 +1,7 @@
 <template>
+  <div class="btn-back" @click="goBackMain">
+    <el-button type="primary" :icon="ArrowLeft" circle />
+  </div>
   <el-form
     ref="ruleFormRef"
     class="custom-form"
@@ -134,7 +137,7 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
-import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
+import { Delete, Download, Plus, ZoomIn, ArrowLeft } from '@element-plus/icons-vue'
 import { drive, engineType, engineDisplacement } from '../assets/optionsForm'
 import type { FormInstance, UploadFile } from 'element-plus'
 import type { Lot } from '../types/lot'
@@ -162,6 +165,10 @@ const lotForm = reactive<Lot>({
 })
 
 const lotsStore = useLotsStore()
+
+const goBackMain = () => {
+  router.push('/')
+}
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -228,11 +235,16 @@ const handleDownload = (file: UploadFile) => {
 </script>
 
 <style lang="css" scoped>
+
+.btn-back {
+  height: 5%;
+}
+
 .custom-form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  height: 95%;
 }
 
 .upload-image :deep(.el-upload-list--picture-card) {

@@ -22,8 +22,12 @@
 
         <div style="font-size: 22px; font-weight: 600; margin: 5px 0 5px 0;">{{ lot.title }}</div>
 
-        <div style="font-size: 16px; font-weight: 400;">{{ lot.yearManufacture }}, {{ lot.mileage }} км, {{ lot.engineDisplacement }}L, {{ lot.power }} л.с., {{ lot.drive }}, {{ lot.engineType }}</div>
+        <div style="font-size: 16px; font-weight: 400; margin-bottom: 15px;">{{ lot.yearManufacture }}, {{ lot.mileage }} км, {{ lot.engineDisplacement }}L, {{ lot.power }} л.с., {{ lot.drive }}, {{ lot.engineType }}</div>
 
+      </div>
+
+      <div class="btn-details" @click="openDetailCard(lot.id)">
+        <el-button type="primary" round>Подробнее</el-button>
       </div>
 
       <div class="auction-bid"></div>
@@ -34,16 +38,23 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 
 const router = useRouter()
+const route = useRoute()
 const lotsStore = useLotsStore()
 
 const getLots = computed(function () {
   console.log(lotsStore.lots)
   return lotsStore.lots
 })
+
+const openDetailCard = (id: number) => {
+  router.push({ name: 'lot-detail', params: { id: id } })
+  // console.log(route.params.id)
+}
+
 </script>
 
 <style lang="css" scoped>
@@ -55,7 +66,7 @@ const getLots = computed(function () {
 
 .auction-card {
   width: 350px;
-  height: 270px;
+  height: auto;
 }
 
 .card-info :deep(.el-carousel__indicators) {
@@ -71,6 +82,13 @@ const getLots = computed(function () {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+
+
+.btn-details {
+  display: flex;
+  justify-content: center
 }
 
 </style>
