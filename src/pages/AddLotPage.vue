@@ -10,4 +10,10 @@ import LotForm from '../components/LotForm.vue'
 
 </script>
 
-<style></style>
+<style lang="css" scoped>
+
+.lot-form {
+  height: 100%;
+}
+
+</style>

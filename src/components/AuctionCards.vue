@@ -1,43 +1,37 @@
 <template>
-
   <ul class="auction-cards-list">
-
-    <li class="auction-card" v-for="lot in getLots" :key="lot.id"> <!-- тут будет v-for -->
+    <li class="auction-card" v-for="lot in getLots" :key="lot.id">
+      <!-- тут будет v-for -->
 
       <!-- {{ lot }} -->
 
-
       <div class="card-info">
+        <div class="block text-center" m="t-4">
+          <el-carousel :autoplay="false" trigger="click">
+            <el-carousel-item v-for="(image, index) in lot.photoBase64" :key="index">
+               <img class="card-info__img" :src="image" alt="car" />
+            </el-carousel-item>
+          </el-carousel>
+        </div>
 
-        <ul class="card-info-images-list" v-for="(image, index) in lot.photoBase64" :key="index">
-
+        <!-- <ul class="card-info-images-list" v-for="(image, index) in lot.photoBase64" :key="index">
           <li class="card-info-image">
             <img class="card-info__img" :src="image" alt="" />
           </li>
+        </ul> -->
 
-        </ul>
+        <div>Название</div>
 
-        <div>
-          Название
-        </div>
-
-        <div>
-          Год, привод, объем, мощность
-        </div>
-
+        <div>Год, привод, объем, мощность</div>
       </div>
 
-
-      <div class="auction-bid"></div> <!-- тут будет компонент блока ставок -->
-
+      <div class="auction-bid"></div>
+      <!-- тут будет компонент блока ставок -->
     </li>
-
   </ul>
-
 </template>
 
 <script lang="ts" setup>
-
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
@@ -49,14 +43,24 @@ const getLots = computed(function () {
   console.log(lotsStore.lots)
   return lotsStore.lots
 })
-
-</script >
+</script>
 
 <style lang="css" scoped>
+
+.auction-card {
+  width: 350px;
+  height: 270px;
+}
 
 .card-info-image {
   height: 100px;
   width: 150px;
+}
+
+.card-info__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 </style>

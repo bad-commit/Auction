@@ -1,117 +1,132 @@
 <template>
-  <el-form ref="ruleFormRef" style="max-width: 600px" :model="lotForm" label-width="200px">
-    <el-form-item label="Наименование" prop="title">
-      <el-input v-model="lotForm.title" />
-    </el-form-item>
+  <el-form
+    ref="ruleFormRef"
+    class="custom-form"
+    style="width: 100%"
+    :model="lotForm"
+    label-width="200px"
+  >
+    <div style="width: 100%; overflow-y: scroll">
+      <div style="max-width: 600px">
+        <el-form-item label="Наименование" prop="title">
+          <el-input v-model="lotForm.title" />
+        </el-form-item>
 
-    <el-form-item label="Год выпуска" prop="yearManufacture">
-      <el-input v-model="lotForm.yearManufacture" />
-    </el-form-item>
+        <el-form-item label="Год выпуска" prop="yearManufacture">
+          <el-input v-model="lotForm.yearManufacture" />
+        </el-form-item>
 
-    <el-form-item label="Цвет" prop="color">
-      <el-input v-model="lotForm.color" />
-    </el-form-item>
+        <el-form-item label="Цвет" prop="color">
+          <el-input v-model="lotForm.color" />
+        </el-form-item>
 
-    <el-form-item label="Привод" prop="drive">
-      <el-select v-model="lotForm.drive" clearable placeholder="Выбрать значение">
-        <el-option
-          v-for="item in drive"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </el-form-item>
+        <el-form-item label="Привод" prop="drive">
+          <el-select v-model="lotForm.drive" clearable placeholder="Выбрать значение">
+            <el-option
+              v-for="item in drive"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
 
-    <el-form-item label="Тип двигателя" prop="engineType">
-      <el-select v-model="lotForm.engineType" clearable placeholder="Выбрать значение">
-        <el-option
-          v-for="item in engineType"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </el-form-item>
+        <el-form-item label="Тип двигателя" prop="engineType">
+          <el-select v-model="lotForm.engineType" clearable placeholder="Выбрать значение">
+            <el-option
+              v-for="item in engineType"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
 
-    <el-form-item label="Объем двигателя" prop="engineDisplacement">
-      <el-select v-model="lotForm.engineDisplacement" clearable placeholder="Выбрать значение">
-        <el-option
-          v-for="item in engineDisplacement"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </el-form-item>
+        <el-form-item label="Объем двигателя" prop="engineDisplacement">
+          <el-select v-model="lotForm.engineDisplacement" clearable placeholder="Выбрать значение">
+            <el-option
+              v-for="item in engineDisplacement"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
 
-    <el-form-item label="Мощность" prop="power">
-      <el-input v-model="lotForm.power" placeholder="л.с." />
-    </el-form-item>
+        <el-form-item label="Мощность" prop="power">
+          <el-input v-model="lotForm.power" placeholder="л.с." />
+        </el-form-item>
 
-    <el-form-item label="Пробег" prop="mileage">
-      <el-input v-model="lotForm.mileage" placeholder="км" />
-    </el-form-item>
+        <el-form-item label="Пробег" prop="mileage">
+          <el-input v-model="lotForm.mileage" placeholder="км" />
+        </el-form-item>
 
-    <el-form-item label="Описание" prop="description">
-      <el-input v-model="lotForm.description" type="textarea" />
-    </el-form-item>
+        <el-form-item label="Описание" prop="description">
+          <el-input v-model="lotForm.description" type="textarea" />
+        </el-form-item>
 
-    <el-form-item label="Начальная цена" prop="startPrice">
-      <el-input-number v-model="lotForm.startPrice" />
-    </el-form-item>
+        <el-form-item label="Начальная цена" prop="startPrice">
+          <el-input-number v-model="lotForm.startPrice" />
+        </el-form-item>
 
-    <el-form-item label="Шаг ставки" prop="step">
-      <el-input-number v-model="lotForm.step" />
-    </el-form-item>
+        <el-form-item label="Шаг ставки" prop="step">
+          <el-input-number v-model="lotForm.step" />
+        </el-form-item>
+      </div>
 
-    <div class="upload-image">
-      <el-form-item label="Фото" prop="photo">
-        <el-upload
-          action="#"
-          list-type="picture-card"
-          :auto-upload="false"
-          v-model:file-list="lotForm.photo"
-          :on-change="handleChange"
-        >
-          <el-icon><Plus /></el-icon>
+      <div class="upload-image">
+        <el-form-item label="Фото" prop="photo">
+          <el-upload
+            action="#"
+            list-type="picture-card"
+            :auto-upload="false"
+            v-model:file-list="lotForm.photo"
+            :on-change="handleChange"
+          >
+            <el-icon><Plus /></el-icon>
 
-          <template #file="{ file }">
-            <div>
-              <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-              <span class="el-upload-list__item-actions">
-                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                  <el-icon><zoom-in /></el-icon>
+            <template #file="{ file }">
+              <div>
+                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-preview"
+                    @click="handlePictureCardPreview(file)"
+                  >
+                    <el-icon><zoom-in /></el-icon>
+                  </span>
+                  <span
+                    v-if="!disabled"
+                    class="el-upload-list__item-delete"
+                    @click="handleDownload(file)"
+                  >
+                    <el-icon><Download /></el-icon>
+                  </span>
+                  <span
+                    v-if="!disabled"
+                    class="el-upload-list__item-delete"
+                    @click="handleRemove(file)"
+                  >
+                    <el-icon><Delete /></el-icon>
+                  </span>
                 </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <el-icon><Download /></el-icon>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
-                >
-                  <el-icon><Delete /></el-icon>
-                </span>
-              </span>
-            </div>
-          </template>
-        </el-upload>
+              </div>
+            </template>
+          </el-upload>
 
-        <el-dialog v-model="dialogVisible">
-          <img w-full :src="dialogImageUrl" alt="Preview Image" />
-        </el-dialog>
-      </el-form-item>
+          <el-dialog v-model="dialogVisible">
+            <img w-full :src="dialogImageUrl" alt="Preview Image" />
+          </el-dialog>
+        </el-form-item>
+      </div>
     </div>
 
-    <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)"> Создать </el-button>
-      <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
-    </el-form-item>
+    <div>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm(ruleFormRef)"> Создать </el-button>
+        <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
+      </el-form-item>
+    </div>
   </el-form>
 </template>
 
@@ -212,4 +227,23 @@ const handleDownload = (file: UploadFile) => {
 }
 </script>
 
-<style></style>
+<style lang="css" scoped>
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.upload-image :deep(.el-upload-list--picture-card) {
+  margin: 0px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.upload-image :deep(.el-carousel__indicators) {
+  display: none;
+}
+
+</style>
