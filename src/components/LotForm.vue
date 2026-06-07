@@ -242,8 +242,4 @@ const handleDownload = (file: UploadFile) => {
   gap: 15px;
 }
 
-.upload-image :deep(.el-carousel__indicators) {
-  display: none;
-}
-
 </style>

@@ -20,9 +20,10 @@
           </li>
         </ul> -->
 
-        <div>Название</div>
+        <div style="font-size: 22px; font-weight: 600; margin: 5px 0 5px 0;">{{ lot.title }}</div>
 
-        <div>Год, привод, объем, мощность</div>
+        <div style="font-size: 16px; font-weight: 400;">{{ lot.yearManufacture }}, {{ lot.mileage }} км, {{ lot.engineDisplacement }}L, {{ lot.power }} л.с., {{ lot.drive }}, {{ lot.engineType }}</div>
+
       </div>
 
       <div class="auction-bid"></div>
@@ -47,9 +48,18 @@ const getLots = computed(function () {
 
 <style lang="css" scoped>
 
+.auction-cards-list {
+  display: flex;
+  gap: 30px;
+}
+
 .auction-card {
   width: 350px;
   height: 270px;
+}
+
+.card-info :deep(.el-carousel__indicators) {
+  display: none;
 }
 
 .card-info-image {
@@ -60,7 +70,7 @@ const getLots = computed(function () {
 .card-info__img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 </style>
