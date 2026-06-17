@@ -10,6 +10,7 @@ export interface Lot {
   startPrice: number
   step: number
   drive: string
+  gearboxType: string
   engineType: string
   engineDisplacement: number | null
   power: number | null

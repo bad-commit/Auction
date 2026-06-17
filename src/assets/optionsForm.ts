@@ -13,6 +13,25 @@ export const drive = [
   },
 ]
 
+export const gearboxType = [
+  {
+    value: 'Механическая',
+    label: 'Механическая',
+  },
+  {
+    value: 'Автоматическая',
+    label: 'Автоматическая',
+  },
+  {
+    value: 'Роботизированная',
+    label: 'Роботизированная',
+  },
+  {
+    value: 'Вариатор',
+    label: 'Вариатор',
+  },
+]
+
 export const engineType = [
   {
     value: 'Бензин',

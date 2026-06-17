@@ -91,4 +91,8 @@ const openDetailCard = (id: number) => {
   justify-content: center
 }
 
+.btn-details :deep(.el-button.is-round) {
+  padding: 8px 50px;
+}
+
 </style>

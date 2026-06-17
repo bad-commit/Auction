@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="details-item">
     <AuctionCardInfo />
   </div>
 </template>
@@ -8,6 +8,11 @@
 import AuctionCardInfo from '../components/AuctionCardInfo.vue'
 </script>
 
-<style>
+<style lang="css" scoped>
+
+.details-item {
+  height: 100%;
+  width: 100%;
+}
 
 </style>

@@ -34,6 +34,17 @@
           </el-select>
         </el-form-item>
 
+        <el-form-item label="Тип КПП" prop="gearboxType">
+          <el-select v-model="lotForm.gearboxType" clearable placeholder="Выбрать значение">
+            <el-option
+              v-for="item in gearboxType"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="Тип двигателя" prop="engineType">
           <el-select v-model="lotForm.engineType" clearable placeholder="Выбрать значение">
             <el-option
@@ -138,7 +149,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 import { Delete, Download, Plus, ZoomIn, ArrowLeft } from '@element-plus/icons-vue'
-import { drive, engineType, engineDisplacement } from '../assets/optionsForm'
+import { drive, gearboxType, engineType, engineDisplacement } from '../assets/optionsForm'
 import type { FormInstance, UploadFile } from 'element-plus'
 import type { Lot } from '../types/lot'
 
@@ -152,6 +163,7 @@ const lotForm = reactive<Lot>({
   color: '',
   description: '',
   drive: '',
+  gearboxType: '',
   engineType: '',
   engineDisplacement: null,
   power: null,
