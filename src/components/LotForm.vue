@@ -172,7 +172,7 @@ const lotForm = reactive<Lot>({
   step: 2000,
   photo: [],
   photoBase64: [],
-  isClosed: false,
+  isClosed: true,
   bids: [],
 })
 

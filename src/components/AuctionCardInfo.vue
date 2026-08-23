@@ -16,24 +16,24 @@
     <div class="car-info">
 
       <div class="car-info__left">
-        <div>Марка & Модель {{ lotInfo.title }}</div>
-        <div>Год выпуска {{ lotInfo.yearManufacture }}</div>
-        <div>Пробег {{ lotInfo.mileage }} км</div>
-        <div>Цвет {{ lotInfo.color }}</div>
-        <div>Привод {{ lotInfo.drive }}</div>
+        <div>Марка & Модель: {{ lotInfo.title }}</div>
+        <div>Год выпуска: {{ lotInfo.yearManufacture }}</div>
+        <div>Пробег: {{ lotInfo.mileage }} км</div>
+        <div>Цвет: {{ lotInfo.color }}</div>
+        <div>Привод: {{ lotInfo.drive }}</div>
       </div>
 
       <div class="car-info__right">
-        <div>Объем двигателя {{ lotInfo.engineDisplacement }}L</div>
-        <div>Мощность {{ lotInfo.power }} л.с.</div>
-        <div>Тип двигателя {{ lotInfo.engineType }}</div>
-        <div>Тип КПП {{ lotInfo.gearboxType }}</div>
+        <div>Объем двигателя: {{ lotInfo.engineDisplacement }}L</div>
+        <div>Мощность: {{ lotInfo.power }} л.с.</div>
+        <div>Тип двигателя: {{ lotInfo.engineType }}</div>
+        <div>Тип КПП: {{ lotInfo.gearboxType }}</div>
       </div>
 
     </div>
 
     <div class="car-bid">
-      
+      <BidForm />
     </div>
 
   </div>
@@ -45,6 +45,7 @@ import { ref, reactive, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 import { ArrowLeft } from '@element-plus/icons-vue'
+import BidForm from './BidForm.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -102,7 +103,7 @@ const goBackMain = () => {
 
 .car-info {
   display: flex;
-  height: 35%;
+  height: 30%;
   width: 100%;
   margin-top: 20px;
 }
@@ -121,6 +122,10 @@ const goBackMain = () => {
   width: 50%;
 }
 
+.car-bid {
+  width: 100%;
+  height: 30%;
+}
 
 
 </style>

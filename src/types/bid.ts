@@ -1,7 +1,7 @@
 export interface Bid {
-  id: number
+  id: number | null
   lotId: number
   user: string
   amount: number
-  timestamp: number
+  timestamp: number | string | null
 }
