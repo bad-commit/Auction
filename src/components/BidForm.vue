@@ -4,10 +4,10 @@
     <div class="bid-form__header">
       <div class="header-title">
         <div class="header-title__text">Ставка</div>
-        <div class="header-title__indicator"></div>
+        <div class="header-title__indicator" :style="{ background: `${changeColorIndicator}` }" ></div>
       </div>
       <div class="header-time">
-        <div class="timer">hh mm ss</div>
+        <div class="timer">{{ formatTimer }}</div>
         <div class="time-bid" v-if="lotInfo?.bids"> {{ lotInfo.bids.at(-1)?.timestamp }} </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 import type {Bid} from '../types/bid'
@@ -40,6 +40,49 @@ import type {Bid} from '../types/bid'
 const lotsStore = useLotsStore().lots
 const route = useRoute()
 const currentLotId = route.params.id
+
+const timer = ref(0)
+let interval: ReturnType<typeof setInterval> | null = null
+
+
+const formatTimer = computed (() => {
+  const hours = Math.floor(timer.value / 3600)
+  const minutes = Math.floor((timer.value % 3600) / 60)
+  const seconds = timer.value % 60
+
+  return [
+    String(hours).padStart(2, '0'),
+    String(minutes).padStart(2, '0'),
+    String(seconds).padStart(2, '0')
+  ].join(':')
+
+})
+
+function stopTimer() {
+  if (interval) {
+    clearInterval(interval)
+    interval = null
+  }
+}
+
+function startTimer() {
+
+  if (interval) return
+
+  interval = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--
+    } else {
+      stopTimer()
+
+      if(lotInfo.value) {
+        lotInfo.value.isClosed = true
+      }
+
+    }
+  }, 1000)
+}
+
 
 
 const lotInfo = computed(() => {
@@ -68,115 +111,57 @@ function getDate() {
 }
 
 
-// const lotForm: any = reactive<Bid>({
-//   id: new Date().getTime(),
-//   lotId: 1,
-//   user: 'Vladislav',
-//   amount: amountBid, // общая сумма после ставки  1) sum = current + step -> 2) sum = sum + step (спросить по поводу 1) и 2) с использованием if - при первой ставки 1), а потом при каждом нажатии 2) )
-//   timestamp: 1
-// })
-
-
-
-// const bidForm: Bid = reactive<Bid>({
-//   id: null,
-//   lotId: Number(currentLotId),
-//   user: 'Vladislav',
-//   amount: null,
-//   timestamp: null
-// })
-
-
 
 const amountBid = ref(lotInfo.value?.startPrice ?? 0)
 
 function makeBid() {
   if (lotInfo.value) {
 
-    // const id = new Date().getTime()
-    // const time = getDate()
-
-    // amountBid.value += lotInfo.value.step
-    // bidForm.amount = amountBid.value
-    // bidForm.timestamp = time
-    // bidForm.id = id
-
-
     const bidForm: Bid = {
-    id: new Date().getTime(),
-    lotId: Number(currentLotId),
-    user: 'Vladislav',
-    amount: amountBid.value + lotInfo.value.step,
-    timestamp: getDate()
+      id: new Date().getTime(),
+      lotId: Number(currentLotId),
+      user: 'Vladislav',
+      amount: amountBid.value + lotInfo.value.step,
+      timestamp: getDate()
     }
 
     amountBid.value = bidForm.amount
 
     lotInfo.value?.bids.push(bidForm)
+    lotInfo.value.isClosed = false
+
+
+    if (timer.value === 0) {
+      timer.value = 0.5 * 60
+    } else {
+      timer.value += 0.5 * 60
+    }
+
+    startTimer()
+
 
     console.log(bidForm.amount)
-    // console.log(time)
     
   }
   console.log(amountBid)
-  // console.log(bidForm)
+
 }
 
+onUnmounted(() => {
+  stopTimer()
+})
 
+const changeColorIndicator = computed(() => {
+  if(lotInfo.value?.bids.length === 0 && lotInfo.value?.isClosed === true) {
+    return "grey"
+  } else if(lotInfo.value?.isClosed === true) {
+    return "red"
+  } else if(lotInfo.value?.isClosed === false) {
+    return "green"
+  }
 
-// Попробовать с помощью get и set объеденить логику makeBid и amountBid (или нет - надо думать)
+})
 
-// if(lotInfo.value) {
-//   let startBidValue = lotInfo.value.startPrice
-//   const bidValue = lotInfo.value.step
-
-//   const amountBid = computed({
-
-//     get() {
-//       return startBidValue
-//     },
-//     set(value) {
-//       return startBidValue = value + bidValue
-//     }
-
-//     // if(lotInfo.value.bids.length === 0) {
-//     //   return startBidValue
-//     // } else {
-//     //   return startBidValue = startBidValue + bidValue
-//     //   // return lotForm.amount = startBidValue
-//     // }
-
-    
-//   })
-//   console.log(amountBid.value)
-
-// }
-
-
-
-// const makeBid = (amountBid: number) => {
-//   // console.log(lotInfo.value)
-
-//   if(lotInfo.value) {
-
-//     // if(lotInfo.value.bids.length === 0) {
-//     //   console.log('НОЛЬ')
-//     //   console.log(lotInfo.value.bids.length)
-//     // } else {
-//     //   console.log('НЕ НОЛЬ')
-//     //   console.log(lotInfo.value.bids.length)
-//     // }
-
-//     lotForm.value.amount = amountBid
-
-//     console.log(lotForm.value.amount)
-
-//     console.log(lotInfo.value)
-
-
-//   }
-
-// }
 
 </script>
 
@@ -200,7 +185,6 @@ function makeBid() {
 .header-title__indicator {
   width: 20px;
   height: 20px;
-  background-color: green;
   border-radius: 50%;
 }
 

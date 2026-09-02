@@ -32,9 +32,21 @@
 
     </div>
 
-    <div class="car-bid">
-      <BidForm />
+
+    <div class="car-info__bottom">
+
+      <div class="car-bid">
+        <BidForm />
+      </div>
+
+      <div class="description">
+        <div class="description__value">
+          {{ lotInfo.description }}
+        </div>
+      </div>
+
     </div>
+
 
   </div>
 
@@ -122,9 +134,29 @@ const goBackMain = () => {
   width: 50%;
 }
 
+.car-info__bottom {
+  height: 32%;
+  display: flex;
+  align-items: center;
+}
+
 .car-bid {
-  width: 100%;
-  height: 30%;
+  width: 50%;
+  height: 100%;
+}
+
+.description {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.description__value {
+  height: 95%;
+  width: 98%;
+  overflow-y: auto;
 }
 
 
