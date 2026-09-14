@@ -1,11 +1,9 @@
 <template>
   <ul class="auction-cards-list">
     <li class="auction-card" v-for="lot in getLots" :key="lot.id">
-      <!-- тут будет v-for -->
-
-      <!-- {{ lot }} -->
 
       <div class="card-info">
+        <div class="card-info__indicator" :style="{ background: `${changeColorIndicator(lot)}` }"></div>
         <div class="block text-center" m="t-4">
           <el-carousel :autoplay="false" trigger="click">
             <el-carousel-item v-for="(image, index) in lot.photoBase64" :key="index">
@@ -13,12 +11,6 @@
             </el-carousel-item>
           </el-carousel>
         </div>
-
-        <!-- <ul class="card-info-images-list" v-for="(image, index) in lot.photoBase64" :key="index">
-          <li class="card-info-image">
-            <img class="card-info__img" :src="image" alt="" />
-          </li>
-        </ul> -->
 
         <div style="font-size: 22px; font-weight: 600; margin: 5px 0 5px 0;">{{ lot.title }}</div>
 
@@ -40,6 +32,7 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
+import type { Lot } from '@/types/lot'
 
 const router = useRouter()
 const route = useRoute()
@@ -53,6 +46,30 @@ const getLots = computed(function () {
 const openDetailCard = (id: number) => {
   router.push({ name: 'lot-detail', params: { id: id } })
   // console.log(route.params.id)
+}
+
+// const changeColorIndicator = computed(() => {
+
+//   for(let i = 0; i < lotsStore.lots.length; i++) {
+//     if(lotsStore.lots[i]?.bids.length === 0 && lotsStore.lots[i]?.isClosed === true) {
+//       return "grey"
+//     } else if(lotsStore.lots[i]?.isClosed === true) {
+//       return "red"
+//     } else if(lotsStore.lots[i]?.isClosed === false) {
+//       return "green"
+//     }
+//   }
+
+// })
+
+function changeColorIndicator(lot:Lot) {
+  if(lot.bids.length === 0 && lot.isClosed === true) {
+      return "grey"
+    } else if(lot.isClosed === true) {
+      return "red"
+    } else if(lot.isClosed === false) {
+      return "green"
+    }
 }
 
 </script>
@@ -69,8 +86,22 @@ const openDetailCard = (id: number) => {
   height: auto;
 }
 
+.card-info {
+  position: relative;
+}
+
 .card-info :deep(.el-carousel__indicators) {
   display: none;
+}
+
+.card-info__indicator {
+  position: absolute;
+  top: 4%;
+  left: 92%;
+  height: 0.6em;
+  width: 0.6em;
+  border-radius: 50%;
+  z-index: 1;
 }
 
 .card-info-image {
