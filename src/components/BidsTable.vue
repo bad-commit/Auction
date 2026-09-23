@@ -2,12 +2,13 @@
   <div>
     <el-table
       :data="bids"
-      :default-sort="{ prop: 'date', order: 'descending' }"
+      :default-sort="{ prop: 'timestamp', order: 'descending' }"
       style="width: 100%"
     >
       <el-table-column prop="timestamp" label="Дата" sortable width="180" />
       <el-table-column prop="user" label="Пользователь" width="180" />
       <el-table-column prop="amount" label="Ставка" />
+      <el-table-column prop="title" label="Автомобиль" sortable />
     </el-table>
   </div>
 </template>
@@ -16,23 +17,24 @@
 import { ref, computed } from 'vue'
 import type {Bid} from '../types/bid'
 import type {Lot} from '../types/lot'
-// import type { TableColumnCtx } from 'element-plus'
 import { useLotsStore } from '../stores/lots'
 
-const bids = ref<Bid[]>([])
+interface BidWithTitle extends Bid {
+  title: string
+}
+
 const lotsStore = useLotsStore().lots
 
-
-lotsStore.forEach((lot) => {
-  for(const bid of lot.bids){
-    console.log(bid)
-    bids.value.push(bid)
-  }
-  console.log(lot)
-})
-
-console.log(bids)
-
+const bids = computed<BidWithTitle[]>(() =>
+  lotsStore.flatMap(lot =>
+    lot.bids.map(bid => ({
+      ...bid,
+      title: lot.title
+    }))
+    
+  )
+  
+)
 
 console.log(lotsStore)
 
