@@ -1,15 +1,42 @@
 <template>
   <div class="content">
 
-    <div class="btn-create">
-      <div class="btn-with-hint">
-        <div class="hint-create__lot">Создать лот</div>
-        <el-button type="primary" icon=Plus @click="$router.push('/add-lot')">Добавить</el-button>
-      </div>
+    <div class="header-content">
+        <el-dropdown @command="handleFilter">
+
+          <el-button>
+            <el-icon><Filter /></el-icon>
+          </el-button>
+
+          <template #dropdown>
+            <el-dropdown-menu>
+
+              <el-dropdown-item command="all">
+                Все
+              </el-dropdown-item>
+
+              <el-dropdown-item command="open">
+                Открытые
+              </el-dropdown-item>
+
+              <el-dropdown-item command="closed">
+                Закрытые
+              </el-dropdown-item>
+
+            </el-dropdown-menu>
+          </template>
+
+        </el-dropdown>
+
+        <div class="btn-with-hint">
+          <div class="hint-create__lot">Создать лот</div>
+          <el-button type="primary" icon=Plus @click="$router.push('/add-lot')">Добавить</el-button>
+        </div>
     </div>
+    
 
     <div class="auction-cards">
-      <AuctionCards />
+      <AuctionCards :filter="filter" />
     </div>
 
   </div>
@@ -18,7 +45,15 @@
 
 <script lang="ts" setup>
 
+import {ref} from 'vue'
 import AuctionCards from '../components/AuctionCards.vue'
+
+const filter = ref('all')
+
+const handleFilter = (value: string) => {
+  filter.value = value
+  // console.log(filter.value)
+}
 
 </script>
 
@@ -29,11 +64,10 @@ import AuctionCards from '../components/AuctionCards.vue'
   flex-direction: column;
 }
 
-.btn-create {
-  position: relative;
+.header-content{
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
+  justify-content: space-between;
+  margin-bottom: 30px
 }
 
 .btn-with-hint {

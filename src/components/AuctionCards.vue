@@ -1,6 +1,6 @@
 <template>
   <ul class="auction-cards-list">
-    <li class="auction-card" v-for="lot in getLots" :key="lot.id">
+    <li class="auction-card" v-for="lot in filterLots" :key="lot.id">
 
       <div class="card-info">
         <div class="card-info__indicator" :style="{ background: `${changeColorIndicator(lot)}` }"></div>
@@ -34,6 +34,13 @@ import { useRouter, useRoute } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 import type { Lot } from '@/types/lot'
 
+const props = defineProps({
+  filter: {
+    type: String,
+    required: true
+  }
+})
+
 const router = useRouter()
 const route = useRoute()
 const lotsStore = useLotsStore()
@@ -41,6 +48,20 @@ const lotsStore = useLotsStore()
 const getLots = computed(function () {
   console.log(lotsStore.lots)
   return lotsStore.lots
+})
+
+
+const filterLots = computed(() => {
+  if(props.filter === 'open') {
+    return getLots.value.filter(lot => !lot.isClosed)
+  }
+
+  if(props.filter === 'closed') {
+    return getLots.value.filter(lot => lot.isClosed)
+  }
+
+  return getLots.value
+
 })
 
 const openDetailCard = (id: number) => {
