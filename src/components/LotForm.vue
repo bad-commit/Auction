@@ -7,6 +7,7 @@
     class="custom-form"
     style="width: 100%"
     :model="lotForm"
+    :rules="rules"
     label-width="200px"
   >
     <div style="width: 100%; overflow-y: scroll">
@@ -150,8 +151,17 @@ import { useRouter } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 import { Delete, Download, Plus, ZoomIn, ArrowLeft } from '@element-plus/icons-vue'
 import { drive, gearboxType, engineType, engineDisplacement } from '../assets/optionsForm'
-import type { FormInstance, UploadFile } from 'element-plus'
+import { ElNotification } from 'element-plus'
+import type { FormInstance, UploadFile, FormRules } from 'element-plus'
 import type { Lot } from '../types/lot'
+
+const successMessage = () => {
+  ElNotification({
+    title: 'Успех!',
+    message: 'Лот успешно создан',
+    type: 'success',
+  })
+}
 
 const router = useRouter()
 
@@ -176,6 +186,80 @@ const lotForm = reactive<Lot>({
   bids: [],
 })
 
+const rules = reactive<FormRules<Lot>>({
+  title: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  yearManufacture: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  color: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  drive: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  gearboxType: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  engineType: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  engineDisplacement: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  power: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  mileage: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, заполните это поле'
+    }
+  ],
+  photo: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: 'Пожалуйста, добавьте фотографии'
+    }
+  ],
+
+})
+
 const lotsStore = useLotsStore()
 
 const goBackMain = () => {
@@ -188,6 +272,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       lotsStore.lots.push(lotForm)
+
+      successMessage()
+
       router.push('/')
       console.log('submit!')
     } else {
