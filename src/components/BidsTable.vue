@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div style="height: 100%; width: 100%;">
     <el-table
       :data="bids"
       :default-sort="{ prop: 'timestamp', order: 'descending' }"
-      style="width: 100%"
+      style="width: 100%; height: 100%"
     >
       <el-table-column prop="timestamp" label="Дата" sortable width="180" />
       <el-table-column prop="user" label="Пользователь" width="180" />
