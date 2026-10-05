@@ -15,7 +15,7 @@
       <el-tab-pane name="/stats" label="Статистика">
         <template #label>
           <div class="custom-tab-label__profile">
-            <div class="hint-box">Статистика</div>
+            <div class="hint-box">История ставок</div>
             <el-icon style="font-size: 50px">
               <PieChart />
             </el-icon>
