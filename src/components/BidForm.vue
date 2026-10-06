@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, onUnmounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 import type {Bid} from '../types/bid'
@@ -41,14 +41,16 @@ const lotsStore = useLotsStore().lots
 const route = useRoute()
 const currentLotId = route.params.id
 
-const timer = ref(0)
+const remainingTime = ref()
 let interval: ReturnType<typeof setInterval> | null = null
 
 
 const formatTimer = computed (() => {
-  const hours = Math.floor(timer.value / 3600)
-  const minutes = Math.floor((timer.value % 3600) / 60)
-  const seconds = timer.value % 60
+  const totalSeconds = Math.floor(remainingTime.value / 1000)
+
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
 
   return [
     String(hours).padStart(2, '0'),
@@ -57,32 +59,6 @@ const formatTimer = computed (() => {
   ].join(':')
 
 })
-
-function stopTimer() {
-  if (interval) {
-    clearInterval(interval)
-    interval = null
-  }
-}
-
-function startTimer() {
-
-  if (interval) return
-
-  interval = setInterval(() => {
-    if (timer.value > 0) {
-      timer.value--
-    } else {
-      stopTimer()
-
-      if(lotInfo.value) {
-        lotInfo.value.isClosed = true
-      }
-
-    }
-  }, 1000)
-}
-
 
 
 const lotInfo = computed(() => {
@@ -131,14 +107,11 @@ function makeBid() {
     lotInfo.value.isClosed = false
 
 
-    if (timer.value === 0) {
-      timer.value = 0.5 * 60
+    if (!lotInfo.value.timerEnd) {
+      lotInfo.value.timerEnd = Date.now() + 0.5 * 60 * 1000
     } else {
-      timer.value += 0.5 * 60
+      lotInfo.value.timerEnd += 0.5 * 60 * 1000
     }
-
-    startTimer()
-
 
     console.log(bidForm.amount)
     
@@ -147,8 +120,40 @@ function makeBid() {
 
 }
 
+
+const updateTimer = () => {
+  if (!lotInfo.value?.timerEnd) {
+    remainingTime.value = 0
+    return
+  }
+
+  const remaining = lotInfo.value.timerEnd - Date.now()
+
+  if (remaining <= 0) {
+    remainingTime.value = 0
+    lotInfo.value.isClosed = true
+
+    if (interval) {
+      clearInterval(interval)
+      interval = null
+    }
+
+    return
+  }
+
+  remainingTime.value = remaining
+}
+
+onMounted(() => {
+  updateTimer()
+  interval = setInterval(updateTimer, 1000)
+})
+
 onUnmounted(() => {
-  stopTimer()
+  if (interval) {
+    clearInterval(interval)
+    interval = null
+  }
 })
 
 const changeColorIndicator = computed(() => {

@@ -19,4 +19,5 @@ export interface Lot {
   photoBase64: string[]
   isClosed: boolean
   bids: Bid[]
+  timerEnd: number | null
 }

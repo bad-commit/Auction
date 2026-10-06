@@ -184,6 +184,7 @@ const lotForm = reactive<Lot>({
   photoBase64: [],
   isClosed: true,
   bids: [],
+  timerEnd: null
 })
 
 const rules = reactive<FormRules<Lot>>({
