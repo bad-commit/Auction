@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useLotsStore } from '../stores/lots'
 import type { Lot } from '@/types/lot'
@@ -44,6 +44,22 @@ const props = defineProps({
 const router = useRouter()
 const route = useRoute()
 const lotsStore = useLotsStore()
+
+const currentTime = ref(Date.now())
+
+let interval: ReturnType<typeof setInterval> | null = null
+
+onMounted(() => {
+  interval = setInterval(() => {
+    currentTime.value = Date.now()
+  }, 1000)
+})
+
+onUnmounted(() => {
+  if(interval) {
+    clearInterval(interval)
+  }
+})
 
 const getLots = computed(function () {
   console.log(lotsStore.lots)
@@ -83,12 +99,22 @@ const openDetailCard = (id: number) => {
 
 // })
 
+
+watch(currentTime, (time) => {
+  getLots.value.forEach(lot => {
+    if(lot.timerEnd && time >= lot.timerEnd && !lot.isClosed) {
+      lot.isClosed = true
+    }
+  })
+})
+
+
 function changeColorIndicator(lot:Lot) {
-  if(lot.bids.length === 0 && lot.isClosed === true) {
+  if(lot.bids.length === 0 && lot.isClosed) {
       return "grey"
-    } else if(lot.isClosed === true) {
+    } else if(lot.isClosed) {
       return "red"
-    } else if(lot.isClosed === false) {
+    } else if(!lot.isClosed) {
       return "green"
     }
 }
