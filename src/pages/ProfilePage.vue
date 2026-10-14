@@ -14,6 +14,7 @@ import UserProfile from '../components/UserProfile.vue';
 .profile {
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 }
 
 </style>
