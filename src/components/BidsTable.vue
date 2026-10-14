@@ -14,9 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import type {Bid} from '../types/bid'
-import type {Lot} from '../types/lot'
 import { useLotsStore } from '../stores/lots'
 
 interface BidWithTitle extends Bid {
