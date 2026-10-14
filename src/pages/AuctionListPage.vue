@@ -1,51 +1,36 @@
 <template>
   <div class="content">
-
     <div class="header-content">
-        <el-dropdown @command="handleFilter">
+      <el-dropdown @command="handleFilter">
+        <el-button>
+          <el-icon><Filter /></el-icon>
+        </el-button>
 
-          <el-button>
-            <el-icon><Filter /></el-icon>
-          </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="all"> Все </el-dropdown-item>
 
-          <template #dropdown>
-            <el-dropdown-menu>
+            <el-dropdown-item command="open"> Открытые </el-dropdown-item>
 
-              <el-dropdown-item command="all">
-                Все
-              </el-dropdown-item>
+            <el-dropdown-item command="closed"> Закрытые </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
 
-              <el-dropdown-item command="open">
-                Открытые
-              </el-dropdown-item>
-
-              <el-dropdown-item command="closed">
-                Закрытые
-              </el-dropdown-item>
-
-            </el-dropdown-menu>
-          </template>
-
-        </el-dropdown>
-
-        <div class="btn-with-hint">
-          <div class="hint-create__lot">Создать лот</div>
-          <el-button type="primary" icon=Plus @click="$router.push('/add-lot')">Добавить</el-button>
-        </div>
+      <div class="btn-with-hint">
+        <div class="hint-create__lot">Создать лот</div>
+        <el-button type="primary" icon="Plus" @click="$router.push('/add-lot')">Добавить</el-button>
+      </div>
     </div>
-    
 
     <div class="auction-cards">
       <AuctionCards :filter="filter" />
     </div>
-
   </div>
-  
 </template>
 
 <script lang="ts" setup>
-
-import {ref} from 'vue'
+import { ref } from 'vue'
 import AuctionCards from '../components/AuctionCards.vue'
 
 const filter = ref('all')
@@ -54,25 +39,47 @@ const handleFilter = (value: string) => {
   filter.value = value
   // console.log(filter.value)
 }
-
 </script>
 
 <style scoped>
-
 .content {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
-.header-content{
+.header-content {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px
+  align-items: center;
+  width: 100%;
+  height: 7%;
+  margin-bottom: 1em;
+}
+
+.header-content .el-dropdown {
+  height: 2.8rem;
+  width: 2.8rem;
+}
+
+.header-content .el-button {
+  height: 2.8rem;
+  width: 2.8rem;
+  font-size: 1.8rem;
 }
 
 .btn-with-hint {
   display: flex;
-  position: relative
+  position: relative;
+  height: 2.5rem;
+  width: 8rem;
+}
+
+.btn-with-hint .el-button {
+  font-size: 50%;
+  height: 100%;
+  width: 100%;
 }
 
 .hint-create__lot {
@@ -97,4 +104,10 @@ const handleFilter = (value: string) => {
   opacity: 1;
 }
 
+.auction-cards {
+  height: 93%;
+  width: 99%;
+  padding: 1% 1% 0;
+  overflow-y: scroll;
+}
 </style>
