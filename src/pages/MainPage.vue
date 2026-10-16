@@ -114,6 +114,11 @@ onMounted(() => {
   align-items: center;
 }
 
+.el-icon svg {
+  height: 80% !important;
+  width: 80% !important;
+}
+
 .hint-box {
   visibility: hidden;
   position: absolute;
